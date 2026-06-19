@@ -1,0 +1,17 @@
+# Root node modules
+node_modules/
+
+# VS Code
+.vscode/
+
+# Next.js
+frontend/.next/
+
+# Environment files
+frontend/.env.local
+
+# Logs
+*.log
+
+# Temporary ignore docs because of corrupted long filename
+docs/
