@@ -21,6 +21,8 @@ import { supabase } from "@/lib/supabase";
 import ReviewForm from "./ReviewForm";
 import FavoriteButton from "./FavoriteButton";
 
+export const runtime = "edge";
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };

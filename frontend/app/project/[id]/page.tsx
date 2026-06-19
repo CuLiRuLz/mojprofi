@@ -12,6 +12,8 @@ import {
   ExternalLink,
 } from "lucide-react";
 
+export const runtime = "edge";
+
 type PageProps = {
   params: Promise<{ id: string }>;
 };

@@ -20,6 +20,8 @@ import {
   Calendar,
 } from "lucide-react";
 
+export const runtime = "edge";
+
 export default function PublicProfessionalPage() {
   const params = useParams();
   const slug = params.slug as string;
