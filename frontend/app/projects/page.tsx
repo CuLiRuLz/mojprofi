@@ -73,16 +73,23 @@ export default async function ProjectsPage() {
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {projects?.map((project) => {
-            const profile = project.profiles;
+            const profile = Array.isArray(project.profiles)
+              ? project.profiles[0]
+              : project.profiles;
+
             const profileName = getProfileName(profile);
             const profileType = getProfileType(profile);
-            const cityName =
-  Array.isArray(profile?.cities)
-    ? profile.cities[0]?.name || "Pa qytet"
-    : profile?.cities?.name || "Pa qytet";
+
+            const cityName = Array.isArray(profile?.cities)
+              ? profile.cities[0]?.name || "Pa qytet"
+              : "Pa qytet";
+
             const photoCount = project.project_photos?.length || 0;
+
             const cover =
-              project.project_photos?.[0]?.photo_url || project.photo_url || "";
+              project.project_photos?.[0]?.photo_url ||
+              project.photo_url ||
+              "";
 
             return (
               <Link
