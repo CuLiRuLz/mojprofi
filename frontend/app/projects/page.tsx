@@ -76,7 +76,10 @@ export default async function ProjectsPage() {
             const profile = project.profiles;
             const profileName = getProfileName(profile);
             const profileType = getProfileType(profile);
-            const cityName = profile?.cities?.name || "Pa qytet";
+            const cityName =
+  Array.isArray(profile?.cities)
+    ? profile.cities[0]?.name || "Pa qytet"
+    : profile?.cities?.name || "Pa qytet";
             const photoCount = project.project_photos?.length || 0;
             const cover =
               project.project_photos?.[0]?.photo_url || project.photo_url || "";
