@@ -2,6 +2,8 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 import Navbar from "@/components/Navbar";
 
+export const runtime = "edge";
+
 export default async function CompanyReviewsPage({
   params,
 }: {
