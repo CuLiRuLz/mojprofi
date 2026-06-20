@@ -56,6 +56,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     profilesQuery = profilesQuery.in("id", profileIdsFromCategory);
   }
 
+  if (selectedType === "company") {
+  profilesQuery = profilesQuery.eq("account_type", "company");
+}
+
+if (selectedType === "professional") {
+  profilesQuery = profilesQuery.eq("account_type", "professional");
+}
+
   const { data: profiles } = await profilesQuery;
 
   const { data: cities } = await supabase

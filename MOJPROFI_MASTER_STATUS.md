@@ -8163,3 +8163,11 @@ Filtrimi:
 ```
 
 ende nuk është përfunduar.
+
+
+## TODO Dashboard Layout
+- Të gjitha faqet brenda /dashboard duhet të përdorin të njëjtin layout me sidebar majtas.
+- /dashboard/company/profile nuk duhet të përdorë Navbar publik.
+- /dashboard/professional/profile nuk duhet të përdorë Navbar publik.
+- Butoni “Profili Im” duhet të dërgojë në edit profile brenda dashboard layout-it.
+- Sidebar duhet të mbetet gjithmonë majtas në: Dashboard, Profili im, Projektet, Vlerësimet, Favoritët.

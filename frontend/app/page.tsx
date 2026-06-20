@@ -50,8 +50,9 @@ export default async function Home() {
       *,
       cities(name),
       profile_categories(
-        categories(name)
-      )
+  categories(name)
+),
+reviews(rating)
     `)
     .eq("account_type", "company")
     .eq("is_approved", true)
@@ -77,6 +78,31 @@ export default async function Home() {
     `)
     .order("created_at", { ascending: false })
     .limit(projectLimit);
+
+    const { data: featuredProfessionals } = await supabase
+  .from("profiles")
+  .select(`
+    *,
+    cities(name),
+    profile_categories(
+  categories(name)
+),
+reviews(rating)
+  `)
+  .eq("account_type", "professional")
+  .eq("is_approved", true)
+  .limit(4);
+
+function getRating(reviews: any[] | null | undefined) {
+  if (!reviews || reviews.length === 0) {
+    return "⭐ --";
+  }
+
+  const total = reviews.reduce((sum, review) => sum + Number(review.rating || 0), 0);
+  const average = total / reviews.length;
+
+  return `⭐ ${average.toFixed(1)}`;
+}
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -160,123 +186,150 @@ export default async function Home() {
         </div>
       </section>
 
-      {settings?.show_categories !== false && (
-        <section id="categories" className="mx-auto max-w-[1500px] px-8 py-7">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-3xl font-extrabold">Kategoritë më të kërkuara</h2>
-            <a href="/categories" className="text-lg font-extrabold text-blue-600">
-              Shiko të gjitha ›
-            </a>
-          </div>
+    {settings?.show_companies !== false && (
+  <section id="companies" className="mx-auto max-w-[1500px] px-8 pb-7">
+  <div className="grid gap-8 lg:grid-cols-2">
+    {/* Kompanitë */}
+    <div>
+      <div className="mb-5 flex items-center justify-between">
+        <h2 className="text-3xl font-extrabold">Kompanitë e verifikuara</h2>
+        <a href="/search?type=company" className="text-lg font-extrabold text-blue-600">
+          Shiko të gjitha ›
+        </a>
+      </div>
 
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-5 lg:grid-cols-10">
-            {categories?.slice(0, 10).map((category) => (
-              <a
-                key={category.id}
-                href={`/search?category=${category.id}`}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-5 text-center shadow-sm transition hover:-translate-y-1 hover:shadow-md"
-              >
-                <div className="text-4xl text-blue-600">
-                  {categoryIcons[category.name] || "🔧"}
+      <div className="grid grid-cols-4 gap-3">
+        {featuredCompanies?.slice(0, 4).map((company) => (
+          <a
+            key={company.id}
+            href={`/company/${company.slug}`}
+            className="block min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-lg"
+          >
+            <div className="relative h-[125px]">
+              {company.cover_url ? (
+                <img
+                  src={company.cover_url}
+                  alt={company.company_name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="h-full w-full bg-slate-200" />
+              )}
+
+              <div className="absolute right-2 top-2 rounded bg-green-500 px-1.5 py-[2px] text-[8px] font-bold text-white">
+                VERIFIKUAR
+              </div>
+            </div>
+
+            <div className="px-3 pb-3 pt-3">
+              <h3 className="truncate text-lg font-extrabold">
+                {company.company_name}
+              </h3>
+
+              <div className="flex items-center justify-between gap-2">
+                <p className="truncate text-xs font-semibold text-slate-900">
+  🏢 Kompani
+</p>
+
+                <span className="shrink-0 text-[11px] font-bold text-slate-600">
+                  {getRating(company.reviews)}
+                </span>
+              </div>
+
+              <p className="truncate text-xs font-semibold text-slate-500">
+                {company.profile_categories?.[0]?.categories?.name || "Kategori"}
+              </p>
+
+              <p className="truncate text-xs font-semibold text-slate-500">
+                {company.cities?.name || "Qyteti"}
+              </p>
+
+              <div className="mt-4 flex items-center justify-between border-t pt-3">
+                <div className="flex items-center gap-1 text-xs font-bold text-slate-800">
+                  <span>📞</span>
+                  <span>Kontakt</span>
                 </div>
-                <div className="mt-3 font-extrabold">{category.name}</div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
+                <span className="text-lg text-slate-500">♡</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
 
-      {settings?.show_companies !== false && (
-        <section id="companies" className="mx-auto max-w-[1500px] px-8 pb-7">
-          <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-3xl font-extrabold">Kompanitë e verifikuara</h2>
-            <a href="/search?type=company" className="text-lg font-extrabold text-blue-600">
-              Shiko të gjitha ›
-            </a>
-          </div>
 
-          <div className="grid gap-5 lg:grid-cols-4">
-            {featuredCompanies?.map((company) => (
-              <a
-                key={company.id}
-                href={`/company/${company.slug}`}
-                className="block overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-lg"
-              >
-                <div className="relative h-[150px]">
-                  {company.cover_url ? (
-                    <img
-                      src={company.cover_url}
-                      alt={company.company_name}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="h-full w-full bg-slate-200" />
-                  )}
+      {/* Profesionistët */}
+      <div>
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="text-3xl font-extrabold">Profesionistët e verifikuar</h2>
+          <a href="/search?type=professional" className="text-lg font-extrabold text-blue-600">
+            Shiko të gjitha ›
+          </a>
+        </div>
 
-                  <div className="absolute right-3 top-3 rounded-md bg-green-500 px-2.5 py-1 text-[11px] font-bold text-white">
+        <div className="grid grid-cols-4 gap-3">
+          {featuredProfessionals?.slice(0, 4).map((pro) => (
+            <a
+              key={pro.id}
+              href={`/professional/${pro.slug}`}
+              className="block min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-md transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              <div className="relative h-[125px]">
+                {pro.logo_url ? (
+                  <img
+                    src={pro.logo_url}
+                    alt={`${pro.first_name || ""} ${pro.last_name || ""}`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-slate-200 text-3xl font-black text-slate-500">
+                    {pro.first_name?.charAt(0)?.toUpperCase() || "P"}
+                  </div>
+                )}
+
+                <div className="absolute right-2 top-2 rounded bg-green-500 px-1.5 py-[2px] text-[8px] font-bold text-white">
   VERIFIKUAR
 </div>
+              </div>
+
+              <div className="px-3 pb-3 pt-3">
+                <h3 className="truncate text-lg font-extrabold">
+                  {pro.first_name} {pro.last_name}
+                </h3>
+
+                <div className="flex items-center justify-between gap-2">
+  <p className="truncate text-xs font-semibold text-slate-900">
+  👷 Puntor Privat
+</p>
+
+  <span className="shrink-0 text-[11px] font-bold text-slate-600">
+    {getRating(pro.reviews)}
+  </span>
+</div>
+
+<p className="truncate text-xs font-semibold text-slate-500">
+  {pro.profile_categories?.[0]?.categories?.name || "Kategori"}
+</p>
+
+                <p className="truncate text-sm font-semibold text-slate-500">
+                  {pro.cities?.name || "Qyteti"}
+                </p>
+
+                <div className="mt-4 flex items-center justify-between border-t pt-3">
+                  <div className="flex items-center gap-1 text-xs font-bold text-slate-800">
+                    <span>📞</span>
+                    <span>Kontakt</span>
+                  </div>
+                  <span className="text-lg text-slate-500">♡</span>
                 </div>
-
-                <div className="relative px-5 pb-4 pt-0">
-                  <div className="-mt-9 flex items-end gap-4">
-                    <div className="flex h-[78px] w-[78px] items-center justify-center overflow-hidden rounded-xl border bg-white text-center text-xl font-black shadow-md">
-                      {company.logo_url ? (
-                        <img
-                          src={company.logo_url}
-                          alt={company.company_name}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        company.company_name?.charAt(0)?.toUpperCase()
-                      )}
-                    </div>
-
-                    <div className="min-w-0 flex-1 pb-0 pt-10">
-                      <div className="flex items-center justify-between gap-3">
-                        <h3 className="truncate text-2xl font-extrabold">
-                          {company.company_name}
-                        </h3>
-                        <span className="shrink-0 font-extrabold">
-                          ⭐ 0.0 <span className="text-slate-500">(0)</span>
-                        </span>
-                      </div>
-
-                      <p className="font-semibold text-slate-600">
-                        {company.cities?.name || "Qyteti"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {company.profile_categories?.length > 0 ? (
-                      company.profile_categories.slice(0, 3).map((item: any) => (
-                        <span
-                          key={item.categories?.name}
-                          className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700"
-                        >
-                          {item.categories?.name}
-                        </span>
-                      ))
-                    ) : (
-                      <span className="rounded-full bg-slate-100 px-4 py-2 text-sm font-bold text-slate-700">
-                        Kompani
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-5 flex items-center justify-between border-t pt-4">
-                    <span className="font-bold text-slate-800">📞 Telefon</span>
-                    <span className="font-bold text-green-600">🟢 WhatsApp</span>
-                    <span className="text-2xl text-slate-500">♡</span>
-                  </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
       {settings?.show_projects !== false && (
         <section className="mx-auto max-w-[1500px] px-8 py-8">
           <div className="mb-5 flex items-center justify-between">

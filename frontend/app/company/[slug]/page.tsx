@@ -18,8 +18,8 @@ import {
   FaShareAlt,
 } from "react-icons/fa";
 import { supabase } from "@/lib/supabase";
-import ReviewForm from "./ReviewForm";
-import FavoriteButton from "./FavoriteButton";
+import ReviewForm from "@/components/ReviewForm";
+import FavoriteButton from "@/components/FavoriteButton";
 
 export const runtime = "edge";
 
@@ -357,11 +357,15 @@ const memberSince = profile.created_at
 
             <section id="reviews" className="rounded-2xl bg-white p-7 shadow-md">
               <div className="mb-5 flex items-center justify-between">
-                <h3 className="text-xl font-black">Vlerësimet e Klientëve</h3>
-                <Link href="#" className="text-sm font-bold text-blue-600">
-                  Shiko të gjitha
-                </Link>
-              </div>
+  <h3 className="text-xl font-black">Vlerësimet e Klientëve</h3>
+
+  <Link
+    href={`/company/${profile.slug}/reviews`}
+    className="text-sm font-bold text-blue-600"
+  >
+    Shiko të gjitha
+  </Link>
+</div>
 
               <div className="grid gap-4 md:grid-cols-[150px_1fr_1fr_1fr]">
                 <div className="rounded-xl bg-slate-50 p-5 text-center shadow-sm">

@@ -3,8 +3,9 @@
 import Navbar from "@/components/Navbar";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import FavoriteButton from "@/app/company/[slug]/FavoriteButton";
 import { supabase } from "@/lib/supabase";
+import ReviewForm from "@/components/ReviewForm";
+import FavoriteButton from "@/components/FavoriteButton";
 import {
   MapPin,
   Trophy,
@@ -364,14 +365,57 @@ Shpërndaj
 
               </div>
 
-              <div id="reviews" className="mt-10 rounded-3xl bg-white p-8 shadow-sm">
-                <h3 className="text-xl font-black">Vlerësimet</h3>
-                {reviews.length === 0 ? (
-                  <p className="mt-4 text-slate-500">
-                    Ky profesionist ende nuk ka vlerësime.
-                  </p>
-                ) : null}
+<div id="reviews" className="mt-10 rounded-3xl bg-white p-8 shadow-sm">
+  <div className="mb-5 flex items-center justify-between">
+    <h3 className="text-xl font-black">Vlerësimet</h3>
+
+    <a
+      href={`/professional/${profile.slug}/reviews`}
+      className="text-sm font-bold text-blue-600"
+    >
+      Shiko të gjitha
+    </a>
+  </div>
+
+  <div className="grid gap-4 md:grid-cols-[150px_1fr_1fr_1fr]">
+    <div className="rounded-xl bg-slate-50 p-5 text-center shadow-sm">
+      <div className="text-5xl font-black">{averageRating}</div>
+      <div className="mt-2 text-yellow-400">★★★★★</div>
+      <p className="mt-2 text-sm font-semibold text-slate-500">
+        Nga {reviews.length} vlerësime
+      </p>
+    </div>
+
+    {reviews.length === 0 ? (
+      <p className="rounded-xl bg-white p-5 text-sm font-semibold text-slate-500 shadow-sm md:col-span-3">
+        Ky profesionist ende nuk ka vlerësime.
+      </p>
+    ) : (
+      reviews.slice(0, 3).map((review) => (
+        <div key={review.id} className="rounded-xl bg-white p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-full bg-slate-200" />
+            <div>
+              <h4 className="text-sm font-black">{review.reviewer_name}</h4>
+              <div className="text-xs text-yellow-400">
+                {"★".repeat(Number(review.rating || 0))}
               </div>
+            </div>
+          </div>
+
+          <p className="mt-3 text-sm leading-6 text-slate-600">
+            {review.comment}
+          </p>
+        </div>
+      ))
+    )}
+  </div>
+
+  <div className="mt-6">
+    <ReviewForm profileId={profile.id.toString()} />
+  </div>
+</div>
+
 
             </div>
 

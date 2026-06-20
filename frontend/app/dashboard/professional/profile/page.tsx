@@ -135,7 +135,7 @@ if (logoFile) {
   account_type: "professional",
   first_name: firstName,
   last_name: lastName,
-  profession,
+  profession: "Puntor Privat",
   phone,
   city_id: city ? Number(city) : null,
   about,
@@ -261,13 +261,6 @@ if (savedProfile && category) {
                 placeholder="Mbiemri"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-              />
-
-              <input
-                className="rounded-2xl border border-slate-200 px-5 py-4"
-                placeholder="Profesioni kryesor"
-                value={profession}
-                onChange={(e) => setProfession(e.target.value)}
               />
 
               <select
