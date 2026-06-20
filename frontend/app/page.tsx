@@ -109,82 +109,150 @@ function getRating(reviews: any[] | null | undefined) {
       <Navbar />
 
       <section
-        className="relative bg-cover bg-center pb-8"
-        style={{
-          backgroundImage: `linear-gradient(90deg, rgba(8,18,35,0.88), rgba(8,18,35,0.55), rgba(8,18,35,0.35)), url('${
-            settings?.homepage_hero_url ||
-            "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1800&q=80"
-          }')`,
-        }}
-      >
-        <div className="mx-auto max-w-[1160px] px-8 pt-14 text-white">
-          <h1 className="max-w-3xl text-5xl font-extrabold leading-tight tracking-tight md:text-6xl">
-            {settings?.homepage_hero_title ||
-              "Gjeni profesionistin e duhur për punën tuaj"}
-          </h1>
+  className="relative min-h-[500px] bg-cover bg-center bg-no-repeat pb-8"
+  style={{
+    backgroundImage: `linear-gradient(
+      90deg,
+      rgba(255,255,255,0.85) 0%,
+      rgba(255,255,255,0.78) 18%,
+      rgba(255,255,255,0.32) 22%,
+      rgba(255,255,255,0.03) 30%
+    ), url('${
+      settings?.homepage_hero_url ||
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1800&q=80"
+    }')`,
+  }}
+>
+  <div className="mx-auto max-w-[1160px] px-8 pt-14">
+        <div className="-ml-42">
+  <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl">
+    {settings?.homepage_hero_title ||
+      "Gjeni profesionistin e duhur për punën tuaj"}
+  </h1>
 
-          <p className="mt-5 text-2xl font-bold text-white/95">
-            {settings?.homepage_hero_subtitle ||
-              "Kërkoni kompani të besueshme sipas shërbimit dhe qytetit."}
-          </p>
+  <p className="mt-4 max-w-2xl text-lg font-medium text-slate-600">
+    {settings?.homepage_hero_subtitle ||
+      "Kërkoni kompani të besueshme sipas shërbimit dhe qytetit."}
+  </p>
+</div>
 
           <form
-            action="/search"
-            className="mt-7 grid max-w-[1040px] gap-5 rounded-2xl bg-white p-7 text-slate-900 shadow-2xl md:grid-cols-[1fr_1fr_180px]"
-          >
-            <div>
-              <label className="mb-3 block text-lg font-extrabold">
-                Çfarë shërbimi kërkoni?
-              </label>
+  action="/search"
+  className="-ml-42 mt-7 flex max-w-[820px] items-center overflow-hidden rounded-2xl bg-white px-5 py-4 text-slate-900 shadow-xl"
+>
+  <div className="flex flex-1 items-center gap-3 border-r border-slate-200 pr-5">
+    <svg
+      className="h-6 w-6 text-slate-500"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="m21 21-4.35-4.35M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"
+      />
+    </svg>
 
-              <select
-                name="category"
-                className="w-full rounded-xl border border-slate-200 bg-white px-5 py-4 text-lg font-bold outline-none"
-                defaultValue=""
-              >
-                <option value="">Zgjidh kategorinë</option>
-                {categories?.map((category) => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+    <div className="w-full">
+      <p className="text-xs font-semibold text-slate-700">
+        Çfarë shërbimi kërkoni?
+      </p>
 
-            <div>
-              <label className="mb-3 block text-lg font-extrabold">
-                Në cilin qytet?
-              </label>
+      <select
+        name="category"
+        defaultValue=""
+        className="mt-1 w-full bg-transparent text-sm text-slate-500 outline-none"
+      >
+        <option value="">P.sh. Elektricist, Hidraulik, Pastrim...</option>
 
-              <select
-                name="city"
-                className="w-full rounded-xl border border-slate-200 bg-white px-5 py-4 text-lg font-bold outline-none"
-                defaultValue=""
-              >
-                <option value="">Zgjidh qytetin</option>
-                {cities?.map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+        {categories?.map((category) => (
+          <option key={category.id} value={category.id}>
+            {category.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
 
-            <button className="mt-9 rounded-xl bg-blue-600 px-8 py-4 text-xl font-extrabold text-white hover:bg-blue-700">
-              🔍 {settings?.homepage_cta_text || "Kërko"}
-            </button>
-          </form>
+  <div className="flex flex-1 items-center gap-3 border-r border-slate-200 px-5">
+    <svg
+      className="h-6 w-6 text-slate-500"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M17.657 16.657 13.414 20.9a2 2 0 0 1-2.827 0l-4.243-4.243a8 8 0 1 1 11.313 0Z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M15 11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+      />
+    </svg>
+
+    <div className="w-full">
+      <p className="text-xs font-semibold text-slate-700">
+        Qyteti
+      </p>
+
+      <select
+        name="city"
+        defaultValue=""
+        className="mt-1 w-full bg-transparent text-sm text-slate-500 outline-none"
+      >
+        <option value="">Zgjidh qytetin</option>
+
+        {cities?.map((city) => (
+          <option key={city.id} value={city.id}>
+            {city.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    className="ml-5 rounded-xl bg-blue-600 px-8 py-4 text-sm font-semibold text-white transition hover:bg-blue-700"
+  >
+    Kërko →
+  </button>
+</form>
         </div>
 
-        <div className="mt-8 bg-black/30 backdrop-blur-sm">
-          <div className="mx-auto grid max-w-[1160px] grid-cols-2 gap-4 px-8 py-5 text-white md:grid-cols-4">
-            <div className="text-lg font-extrabold">🛡️ Kompanitë e verifikuara</div>
-            <div className="text-lg font-extrabold">⭐ Vlerësime reale</div>
-            <div className="text-lg font-extrabold">👥 Klientë të kënaqur</div>
-            <div className="text-lg font-extrabold">🔒 Të sigurta & të besueshme</div>
-          </div>
-        </div>
-      </section>
+        <div className="mt-6">
+  <div className="ml-50 flex max-w-[1160px] flex-wrap items-center gap-8 px-8 py-2 text-sm font-medium text-slate-900">
+    
+    <div className="flex items-center gap-2">
+      <span className="text-blue-600">🛡️</span>
+      <span>Kompanitë e verifikuara</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span className="text-blue-600">⭐</span>
+      <span>Vlerësime reale</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span className="text-blue-600">💰</span>
+      <span>Çmime të drejta</span>
+    </div>
+
+    <div className="flex items-center gap-2">
+      <span className="text-blue-600">🔒</span>
+      <span>Zgjidhje e sigurt</span>
+    </div>
+
+  </div>
+</div>
+</section>
 
     {settings?.show_companies !== false && (
   <section id="companies" className="mx-auto max-w-[1500px] px-8 pb-7">

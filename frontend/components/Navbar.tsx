@@ -99,21 +99,21 @@ export default function Navbar() {
             <>
               <a
                 href="/dashboard"
-                className="rounded-xl border border-slate-200 px-5 py-3 font-bold text-slate-900"
+                className="rounded-xl border border-slate-200 px-3 py-1 font-bold text-slate-900"
               >
                 Dashboard
               </a>
 
               <a
                 href={publicProfileLink}
-                className="rounded-xl bg-blue-600 px-5 py-3 font-bold text-white shadow"
+                className="rounded-xl bg-blue-600 px-3 py-1 font-bold text-white shadow"
               >
                 Profili Im
               </a>
 
               <a
                 href="/logout"
-                className="rounded-xl border border-red-200 px-5 py-3 font-bold text-red-600"
+                className="rounded-xl border border-red-200 px-3 py-1 font-bold text-red-600"
               >
                 Dil
               </a>
@@ -122,14 +122,14 @@ export default function Navbar() {
             <>
               <a
                 href="/login"
-                className="rounded-xl border border-slate-200 px-5 py-3 font-bold text-slate-900"
+                className="rounded-xl border border-slate-200 px-3 py-1 font-bold text-slate-900"
               >
                 Kyçu
               </a>
 
               <a
                 href="/register"
-                className="rounded-xl bg-blue-600 px-5 py-3 font-bold text-white shadow"
+                className="rounded-xl bg-blue-600 px-3 py-1 font-bold text-white shadow"
               >
                 Regjistrohu
               </a>
