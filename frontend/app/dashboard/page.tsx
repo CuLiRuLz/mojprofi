@@ -117,12 +117,18 @@ setRecentProjects(latestProjects || []);
       : profile?.company_name || "Kompania ime";
 
   const roleLabel =
-    accountType === "professional" ? "Mjeshtër i Pavarur" : "Kompani";
+  accountType === "professional"
+    ? "Mjeshtër i Pavarur"
+    : accountType === "company"
+    ? "Kompani"
+    : "Profil";
 
   const editProfileUrl =
-    accountType === "professional"
-      ? "/dashboard/professional/profile"
-      : "/dashboard/company/profile";
+  accountType === "professional"
+    ? "/dashboard/professional/profile"
+    : accountType === "company"
+    ? "/dashboard/company/profile"
+    : "/dashboard";
 
   const publicProfileUrl =
     accountType === "professional"
@@ -167,9 +173,12 @@ setRecentProjects(latestProjects || []);
             <a className="block rounded-xl bg-blue-50 px-4 py-3 font-black text-blue-700" href="/dashboard">
               Dashboard
             </a>
-            <a className="block rounded-xl px-4 py-3 font-bold text-slate-600 hover:bg-slate-50" href={editProfileUrl}>
-              Profili im
-            </a>
+            <a
+  className="block rounded-xl px-4 py-3 font-bold text-slate-600 hover:bg-slate-50"
+  href={publicProfileUrl}
+>
+  Profili Publik
+</a>
             <a className="block rounded-xl px-4 py-3 font-bold text-slate-600 hover:bg-slate-50" href="/dashboard/projects">
               Projektet
             </a>
@@ -223,6 +232,9 @@ setRecentProjects(latestProjects || []);
                   Përmbledhja e aktivitetit të profilit tënd.
                 </p>
                 <p className="mt-1 text-xs text-slate-500">Kyçur si: {email}</p>
+                <p className="mt-1 text-xs font-black text-red-600">
+  DEBUG: {accountType || "NUK KA ACCOUNT TYPE"} / ID: {profile?.id}
+</p>
               </div>
 
               <div className="flex flex-wrap gap-2">

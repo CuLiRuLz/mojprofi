@@ -10,7 +10,6 @@ export default function ProfessionalRegisterPage() {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [profession, setProfession] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,7 +23,6 @@ export default function ProfessionalRegisterPage() {
     if (
       !firstName ||
       !lastName ||
-      !profession ||
       !email ||
       !password ||
       !confirmPassword
@@ -40,32 +38,60 @@ export default function ProfessionalRegisterPage() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          account_type: "professional",
-          first_name: firstName,
-          last_name: lastName,
-          profession,
-        },
-      },
-    });
+    const { data, error } = await supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    data: {
+      account_type: "professional",
+      first_name: firstName,
+      last_name: lastName,
+    },
+  },
+});
 
-    setLoading(false);
+if (error) {
+  setLoading(false);
+  setMessage(error.message);
+  return;
+}
 
-    if (error) {
-      setMessage(error.message);
-      return;
-    }
+if (!data.user) {
+  setLoading(false);
+  setMessage("Llogaria u krijua, por user-i nuk u kthye nga sistemi.");
+  return;
+}
+
+const slug =
+  `${firstName}-${lastName}-${Date.now()}`
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+
+const { error: profileError } = await supabase.from("profiles").insert({
+  user_id: data.user.id,
+  email,
+  account_type: "professional",
+  first_name: firstName,
+  last_name: lastName,
+  slug,
+  is_approved: false,
+  approval_status: "pending",
+});
+
+setLoading(false);
+
+if (profileError) {
+  setMessage(profileError.message);
+  return;
+}
 
     setMessage("Llogaria u krijua me sukses.");
 
     setTimeout(() => {
-      router.push("/dashboard/profile");
-    }, 800);
-  }
+  router.push("/dashboard/professional/profile");
+}, 800);
+}
 
   return (
     <main className="min-h-screen bg-slate-100 px-4 py-5 text-slate-900">
@@ -170,13 +196,6 @@ export default function ProfessionalRegisterPage() {
               </div>
 
               <input
-                className="w-full rounded-2xl border border-slate-200 px-5 py-4"
-                placeholder="Profesioni kryesor"
-                value={profession}
-                onChange={(e) => setProfession(e.target.value)}
-              />
-
-              <input
                 type="email"
                 className="w-full rounded-2xl border border-slate-200 px-5 py-4"
                 placeholder="Email"
@@ -227,4 +246,4 @@ export default function ProfessionalRegisterPage() {
       </div>
     </main>
   );
-}
+  }
