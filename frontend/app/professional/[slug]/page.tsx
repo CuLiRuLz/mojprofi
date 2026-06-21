@@ -73,6 +73,7 @@ export default function PublicProfessionalPage() {
   .eq("profile_id", data.id)
   .order("created_at", { ascending: false })
   .limit(6);
+  console.log("PROJECT DATA:", projectData);
 
       setProjects(projectData || []);
 
@@ -138,7 +139,7 @@ export default function PublicProfessionalPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-slate-50 px-6 py-8 text-slate-900">
+      <main className="min-h-screen overflow-x-hidden bg-slate-50 px-3 pt-2 pb-8 text-slate-900 md:px-6">
         <div className="mx-auto max-w-7xl">
           {/* HERO */}
           <section
@@ -272,231 +273,250 @@ Shpërndaj
           </section>
           {/* TABS */}
           <section className="rounded-b-3xl bg-white shadow-sm">
-            <div className="grid grid-cols-4 text-center text-sm font-semibold text-slate-600">
-              <a href="#summary" className="border-b-4 border-blue-600 px-4 py-5 text-blue-600">
-                Përmbledhje
-              </a>
-              <a href="#projects" className="px-4 py-5">
-                Projektet
-              </a>
-              <a href="#reviews" className="px-4 py-5">
-                Vlerësimet ({reviews.length})
-              </a>
-              <a href="#contact" className="px-4 py-5">
-                Kontakti
-              </a>
-            </div>
-          </section>
-
-          {/* CONTENT */}
-          <section id="summary" className="mt-8 grid gap-8 lg:grid-cols-[1fr_380px]">
-            <div className="rounded-3xl bg-white p-8 shadow-sm">
-              <h2 className="text-2xl font-black">Rreth Profesionistit</h2>
-
-              <p className="mt-4 leading-relaxed text-slate-700">
-                {profile.about || "Ky profesionist ende nuk ka shtuar përshkrim."}
-              </p>
-
-              <div className="mt-8 grid gap-3 text-slate-700 sm:grid-cols-2">
-                <p className="flex items-center gap-2">
-                  <CheckCircle size={18} className="text-blue-600" />
-                  Punë profesionale
-                </p>
-                <p className="flex items-center gap-2">
-                  <CheckCircle size={18} className="text-blue-600" />
-                  Përgjigje e shpejtë
-                </p>
-                <p className="flex items-center gap-2">
-                  <CheckCircle size={18} className="text-blue-600" />
-                  Përvojë në terren
-                </p>
-                <p className="flex items-center gap-2">
-                  <CheckCircle size={18} className="text-blue-600" />
-                  Kontakt direkt
-                </p>
-              </div>
-
-              <div id="projects" className="mt-10 border-t pt-8">
-                <h3 className="text-xl font-black">Punët e Fundit</h3>
-
-                {projects.length === 0 ? (
-                  <p className="mt-4 text-slate-500">
-                    Ky profesionist ende nuk ka shtuar projekte.
-                  </p>
-                ) : (
-                  <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {projects.map((project) => (
-                      <a
-                        key={project.id}
-                        href={`/project/${project.id}`}
-                        className="block rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-1 hover:shadow-md"
-                      >
-                        <div className="h-32 overflow-hidden rounded-xl bg-slate-200">
-                          {project.project_photos?.[0]?.photo_url ? (
-                            <img
-                              src={project.project_photos[0].photo_url}
-                              alt={project.title}
-                              className="h-full w-full object-cover"
-                            />
-                          ) : (
-                            <div className="flex h-full w-full items-center justify-center text-slate-400">
-                              <Briefcase size={32} />
-                            </div>
-                          )}
-                        </div>
-
-                        <h4 className="mt-4 font-bold text-slate-900">
-                          {project.title}
-                        </h4>
-
-                        {project.description && (
-                          <p className="mt-2 line-clamp-2 text-sm text-slate-600">
-                            {project.description}
-                          </p>
-                        )}
-
-                        <div className="mt-3 text-sm font-semibold text-blue-600">
-                          Shiko projektin →
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                )}
-
-              </div>
-
-<div id="reviews" className="mt-10 rounded-3xl bg-white p-8 shadow-sm">
-  <div className="mb-5 flex items-center justify-between">
-    <h3 className="text-xl font-black">Vlerësimet</h3>
+  <div className="flex overflow-x-auto whitespace-nowrap text-center text-sm font-semibold text-slate-600 md:grid md:grid-cols-4">
+    
+    <a
+      href="#summary"
+      className="min-w-[120px] border-b-4 border-blue-600 px-4 py-5 text-blue-600"
+    >
+      Përmbledhje
+    </a>
 
     <a
-      href={`/professional/${profile.slug}/reviews`}
-      className="text-sm font-bold text-blue-600"
+      href="#projects"
+      className="min-w-[120px] px-4 py-5"
     >
-      Shiko të gjitha
+      Projektet
     </a>
+
+    <a
+      href="#reviews"
+      className="min-w-[120px] px-4 py-5"
+    >
+      Vlerësimet ({reviews.length})
+    </a>
+
+    <a
+      href="#contact"
+      className="min-w-[120px] px-4 py-5"
+    >
+      Kontakti
+    </a>
+
+  </div>
+</section>
+
+         {/* CONTENT */}
+<section id="summary" className="mt-8 grid max-w-full gap-8 overflow-hidden lg:grid-cols-[1fr_380px]">
+  <div className="space-y-8">
+    {/* RRETH PROFESIONISTIT */}
+    <div className="rounded-3xl bg-white p-8 shadow-sm">
+      <h2 className="text-2xl font-black">Rreth Profesionistit</h2>
+
+      <p className="mt-4 max-w-full break-all leading-relaxed text-slate-700">
+        {profile.about || "Ky profesionist ende nuk ka shtuar përshkrim."}
+      </p>
+
+      <div className="mt-8 grid gap-3 text-slate-700 sm:grid-cols-2">
+        <p className="flex items-center gap-2">
+          <CheckCircle size={18} className="text-blue-600" />
+          Punë profesionale
+        </p>
+        <p className="flex items-center gap-2">
+          <CheckCircle size={18} className="text-blue-600" />
+          Përgjigje e shpejtë
+        </p>
+        <p className="flex items-center gap-2">
+          <CheckCircle size={18} className="text-blue-600" />
+          Përvojë në terren
+        </p>
+        <p className="flex items-center gap-2">
+          <CheckCircle size={18} className="text-blue-600" />
+          Kontakt direkt
+        </p>
+      </div>
+    </div>
+
+    {/* PUNET E FUNDIT */}
+    <div id="projects" className="rounded-3xl bg-white p-8 shadow-sm">
+      <h3 className="text-xl font-black">Punët e Fundit</h3>
+
+      {projects.length === 0 ? (
+        <p className="mt-4 text-slate-500">
+          Ky profesionist ende nuk ka shtuar projekte.
+        </p>
+      ) : (
+        <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => (
+            <a
+              key={project.id}
+              href={`/project/${project.id}`}
+              className="block rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="h-32 overflow-hidden rounded-xl bg-slate-200">
+                {project.project_photos?.[0]?.photo_url ? (
+                  <img
+                    src={project.project_photos[0].photo_url}
+                    alt={project.title}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-slate-400">
+                    <Briefcase size={32} />
+                  </div>
+                )}
+              </div>
+
+              <h4 className="mt-4 font-bold text-slate-900">
+                {project.title}
+              </h4>
+
+              {project.description && (
+                <p className="mt-2 line-clamp-2 text-sm text-slate-600">
+                  {project.description}
+                </p>
+              )}
+
+              <div className="mt-3 text-sm font-semibold text-blue-600">
+                Shiko projektin →
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* VLERESIMET */}
+    <div id="reviews" className="rounded-3xl bg-white p-4 shadow-sm md:p-8">
+      <div className="mb-5 flex items-center justify-between">
+        <h3 className="text-xl font-black">Vlerësimet</h3>
+
+        <a
+          href={`/professional/${profile.slug}/reviews`}
+          className="text-sm font-bold text-blue-600"
+        >
+          Shiko të gjitha
+        </a>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-[150px_1fr_1fr_1fr]">
+        <div className="rounded-xl bg-slate-50 p-4 text-center shadow-none md:p-5 md:shadow-sm">
+          <div className="text-5xl font-black">{averageRating}</div>
+          <div className="mt-2 text-yellow-400">★★★★★</div>
+          <p className="mt-2 text-sm font-semibold text-slate-500">
+            Nga {reviews.length} vlerësime
+          </p>
+        </div>
+
+        {reviews.length === 0 ? (
+          <p className="rounded-xl bg-white p-4 text-sm font-semibold text-slate-500 shadow-none md:col-span-3 md:p-5 md:shadow-sm">
+            Ky profesionist ende nuk ka vlerësime.
+          </p>
+        ) : (
+          reviews.slice(0, 3).map((review) => (
+            <div key={review.id} className="rounded-xl bg-white p-5 shadow-sm">
+              <div className="flex items-center gap-3">
+                <div className="h-9 w-9 rounded-full bg-slate-200" />
+                <div>
+                  <h4 className="text-sm font-black">{review.reviewer_name}</h4>
+                  <div className="text-xs text-yellow-400">
+                    {"★".repeat(Number(review.rating || 0))}
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-3 break-all text-sm leading-6 text-slate-600">
+                {review.comment}
+              </p>
+            </div>
+          ))
+        )}
+      </div>
+
+      <div className="mt-6">
+        <ReviewForm profileId={profile.id.toString()} />
+      </div>
+    </div>
   </div>
 
-  <div className="grid gap-4 md:grid-cols-[150px_1fr_1fr_1fr]">
-    <div className="rounded-xl bg-slate-50 p-5 text-center shadow-sm">
-      <div className="text-5xl font-black">{averageRating}</div>
-      <div className="mt-2 text-yellow-400">★★★★★</div>
-      <p className="mt-2 text-sm font-semibold text-slate-500">
-        Nga {reviews.length} vlerësime
+  {/* CONTACT CARD */}
+  <aside id="contact" className="rounded-3xl bg-white p-8 shadow-sm">
+    <h2 className="text-2xl font-black">Informacion Kontakti</h2>
+
+    <div className="mt-6 space-y-5 text-slate-700">
+      {profile.phone && (
+        <p className="flex items-center gap-3">
+          <Phone size={19} className="text-slate-500" />
+          {profile.phone}
+        </p>
+      )}
+
+      {profile.phone && (
+        <p className="flex items-center gap-3">
+          <MessageCircle size={19} className="text-slate-500" />
+          {profile.phone}
+        </p>
+      )}
+
+      {profile.email && (
+        <p className="flex items-center gap-3 break-all">
+          <Mail size={19} className="text-slate-500" />
+          {profile.email}
+        </p>
+      )}
+
+      {cityName && (
+        <p className="flex items-center gap-3">
+          <MapPin size={19} className="text-slate-500" />
+          {cityName}, Maqedonia e Veriut
+        </p>
+      )}
+    </div>
+
+    <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-5">
+      <div className="flex items-center gap-3 font-bold text-green-700">
+        <CheckCircle size={22} />
+        {profile.verified_level > 0
+          ? "Profil i verifikuar"
+          : "Profil pa verifikim"}
+      </div>
+
+      <p className="mt-2 text-sm text-slate-600">
+        {profile.verified_level > 0
+          ? "Ky profil është verifikuar nga ekipi MojProfi."
+          : "Ky profil ende nuk është verifikuar nga ekipi MojProfi."}
       </p>
     </div>
 
-    {reviews.length === 0 ? (
-      <p className="rounded-xl bg-white p-5 text-sm font-semibold text-slate-500 shadow-sm md:col-span-3">
-        Ky profesionist ende nuk ka vlerësime.
-      </p>
-    ) : (
-      reviews.slice(0, 3).map((review) => (
-        <div key={review.id} className="rounded-xl bg-white p-5 shadow-sm">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-full bg-slate-200" />
-            <div>
-              <h4 className="text-sm font-black">{review.reviewer_name}</h4>
-              <div className="text-xs text-yellow-400">
-                {"★".repeat(Number(review.rating || 0))}
-              </div>
-            </div>
-          </div>
+    <div className="mt-8 space-y-4 border-t pt-6 text-sm text-slate-700">
+      <div className="flex justify-between gap-4">
+        <span className="flex items-center gap-2">
+          <Calendar size={17} />
+          Anëtar që nga
+        </span>
+        <strong>
+          {profile.created_at
+            ? new Date(profile.created_at).getFullYear()
+            : "2026"}
+        </strong>
+      </div>
 
-          <p className="mt-3 text-sm leading-6 text-slate-600">
-            {review.comment}
-          </p>
+      <div className="flex justify-between gap-4">
+        <span>Përgjigjet shpejt</span>
+        <strong>Po</strong>
+      </div>
+
+      {cityName && (
+        <div className="flex justify-between gap-4">
+          <span>Punon në</span>
+          <strong>{cityName}</strong>
         </div>
-      ))
-    )}
-  </div>
-
-  <div className="mt-6">
-    <ReviewForm profileId={profile.id.toString()} />
-  </div>
-</div>
-
-
-            </div>
-
-            {/* CONTACT CARD */}
-            <aside id="contact" className="rounded-3xl bg-white p-8 shadow-sm">
-              <h2 className="text-2xl font-black">Informacion Kontakti</h2>
-
-              <div className="mt-6 space-y-5 text-slate-700">
-                {profile.phone && (
-                  <p className="flex items-center gap-3">
-                    <Phone size={19} className="text-slate-500" />
-                    {profile.phone}
-                  </p>
-                )}
-
-                {profile.phone && (
-                  <p className="flex items-center gap-3">
-                    <MessageCircle size={19} className="text-slate-500" />
-                    {profile.phone}
-                  </p>
-                )}
-
-                {profile.email && (
-                  <p className="flex items-center gap-3 break-all">
-                    <Mail size={19} className="text-slate-500" />
-                    {profile.email}
-                  </p>
-                )}
-
-                {cityName && (
-                  <p className="flex items-center gap-3">
-                    <MapPin size={19} className="text-slate-500" />
-                    {cityName}, Maqedonia e Veriut
-                  </p>
-                )}
-              </div>
-
-              <div className="mt-8 rounded-2xl border border-green-200 bg-green-50 p-5">
-                <div className="flex items-center gap-3 font-bold text-green-700">
-                  <CheckCircle size={22} />
-                  {profile.verified_level > 0
-                    ? "Profil i verifikuar"
-                    : "Profil pa verifikim"}
-                </div>
-
-                <p className="mt-2 text-sm text-slate-600">
-                  {profile.verified_level > 0
-                    ? "Ky profil është verifikuar nga ekipi MojProfi."
-                    : "Ky profil ende nuk është verifikuar nga ekipi MojProfi."}
-                </p>
-              </div>
-
-              <div className="mt-8 space-y-4 border-t pt-6 text-sm text-slate-700">
-                <div className="flex justify-between gap-4">
-                  <span className="flex items-center gap-2">
-                    <Calendar size={17} />
-                    Anëtar që nga
-                  </span>
-                  <strong>
-                    {profile.created_at
-                      ? new Date(profile.created_at).getFullYear()
-                      : "2026"}
-                  </strong>
-                </div>
-
-                <div className="flex justify-between gap-4">
-                  <span>Përgjigjet shpejt</span>
-                  <strong>Po</strong>
-                </div>
-
-                {cityName && (
-                  <div className="flex justify-between gap-4">
-                    <span>Punon në</span>
-                    <strong>{cityName}</strong>
-                  </div>
-                )}
-             </div>
-</aside>
+      )}
+    </div>
+    </aside>
 </section>
-        </div>
-      </main>
-    </>
-  );
+</div>
+</main>
+</>
+);
 }

@@ -121,7 +121,7 @@ const memberSince = profile.created_at
 
       <div className="mx-auto max-w-[1380px] px-6 py-5">
         <section className="overflow-hidden rounded-2xl bg-white shadow-lg">
-          <div className="relative h-[390px]">
+          <div className="relative h-[220px] md:h-[390px]">
             {profile.cover_url ? (
               <img
                 src={profile.cover_url}
@@ -138,10 +138,10 @@ const memberSince = profile.created_at
 
 
 
-          <div className="relative rounded-t-2xl bg-white px-10 pb-0 pt-6">
+          <div className="relative rounded-t-2xl bg-white px-4 md:px-10 pb-0 pt-6">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-              <div className="flex gap-8">
-                <div className="-mt-24 flex h-40 w-40 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-2xl">
+              <div className="flex items-start gap-4 md:gap-8">
+                <div className="-mt-14 flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-2xl md:-mt-24 md:h-40 md:w-40">
                   {profile.logo_url ? (
                     <img
                       src={profile.logo_url}
@@ -155,48 +155,60 @@ const memberSince = profile.created_at
                   )}
                 </div>
 
-                <div>
-                  <div
-  className={`inline-flex items-center gap-2 rounded-full px-2 py-1 text-[11px] font-bold ${verification.className}`}
->
-  <FaCheckCircle />
-  {verification.label}
+                <div className="-mt-3">
+  <div
+    className={`inline-flex items-center gap-2 rounded-full px-2 py-1 text-[11px] font-bold ${verification.className}`}
+  >
+    <FaCheckCircle />
+    {verification.label}
+  </div>
+
+                  <h2 className="-mt-1 flex items-center gap-2 text-2xl font-black md:text-3xl">
+  {displayName}
+  <span className="text-lg text-blue-600">●</span>
+</h2>
+
+<div className="mt-3 hidden items-center gap-3 text-sm md:flex">
+  <span className="text-yellow-400">★★★★★</span>
+  <span className="font-semibold">{averageRating}</span>
+  <span className="text-slate-500">({reviewCount} Vlerësime)</span>
 </div>
 
-                  <h2 className="mt-2 flex items-center gap-2 text-3xl font-black">
-                    {displayName}
-                    <span className="text-lg text-blue-600">●</span>
-                  </h2>
+<div className="mt-4 hidden gap-2 text-sm text-slate-600 md:grid">
+  <div className="flex items-center gap-3">
+    <FaMapMarkerAlt className="text-slate-500" />
+    {profile.cities?.name || "Tetovë"}, Maqedonia e Veriut
+  </div>
 
-                  <div className="mt-3 flex items-center gap-3 text-sm">
-                    <span className="text-yellow-400">★★★★★</span>
-                    <span className="font-semibold">{averageRating}</span>
-                    <span className="text-slate-500">
-                      ({reviewCount} Vlerësime)
-                    </span>
-                  </div>
+  <div className="flex items-center gap-3">
+    <FaTools className="text-slate-500" />
+    {mainCategory}
+  </div>
 
-                  <div className="mt-4 grid gap-2 text-sm text-slate-600">
-                    <div className="flex items-center gap-3">
-                      <FaMapMarkerAlt className="text-slate-500" />
-                      {profile.cities?.name || "Tetovë"}, Maqedonia e Veriut
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <FaTools className="text-slate-500" />
-                      {mainCategory}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <FaClock className="text-slate-500" />
-                      Anëtar që nga {memberSince}
-                    </div>
-                  </div>
+  <div className="flex items-center gap-3">
+    <FaClock className="text-slate-500" />
+    Anëtar që nga {memberSince}
+  </div>
+</div>
+
+<div className="mt-3 -ml-25 text-sm text-slate-600 md:hidden">
+  <div className="flex justify-between">
+    <span>{profile.cities?.name || "Tetovë"}, MK</span>
+    <span>⭐ {averageRating}</span>
+  </div>
+
+  <div className="mt-2 flex justify-between">
+    <span>{mainCategory}</span>
+    <span>Anëtar {memberSince}</span>
+  </div>
+</div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-4 pt-8">
+              <div className="flex items-center gap-2 pt-1 md:flex-wrap md:gap-4">
   <a
     href={`tel:${profile.phone}`}
-    className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-blue-700"
+    className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-2 py-2 text-xs md:px-4 md:text-sm font-bold text-white shadow-md hover:bg-blue-700"
   >
     <FaPhoneAlt />
     Telefono
@@ -206,7 +218,7 @@ const memberSince = profile.created_at
     href={`https://wa.me/${phoneDigits}`}
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 rounded-xl bg-green-500 px-4 py-2 text-sm font-bold text-white shadow-md hover:bg-green-600"
+    className="inline-flex items-center gap-2 rounded-xl bg-green-500 px-2 py-2 text-xs md:px-4 md:text-sm font-bold text-white shadow-md hover:bg-green-600"
   >
     <FaWhatsapp />
     WhatsApp
@@ -216,7 +228,7 @@ const memberSince = profile.created_at
     href={`https://www.facebook.com/sharer/sharer.php?u=https://mojprofi.com/company/${profile.slug}`}
     target="_blank"
     rel="noopener noreferrer"
-    className="inline-flex items-center gap-2 rounded-xl bg-slate-200 px-4 py-2 text-sm font-bold text-slate-700 hover:bg-slate-300"
+    className="inline-flex items-center gap-2 rounded-xl bg-slate-200 px-2 py-2 text-xs md:px-4 md:text-sm md:px-4 md:text-sm font-bold text-slate-700 hover:bg-slate-300"
   >
     <FaShareAlt />
     Shpërndaj
@@ -228,21 +240,28 @@ const memberSince = profile.created_at
 </div>
 </div>
 
-<div className="mt-7 flex text-sm font-semibold text-slate-600">
-  <a className="border-b-4 border-blue-600 px-8 py-4 text-blue-600">
+<div className="mt-7 flex gap-2 overflow-x-auto whitespace-nowrap text-sm font-semibold text-slate-600 md:gap-0 md:overflow-visible">
+  <a className="shrink-0 border-b-4 border-blue-600 px-4 py-4 text-blue-600 md:px-8">
     Përmbledhje
   </a>
-  <a href="#projects" className="px-8 py-4">
+
+  <a href="#projects" className="shrink-0 px-4 py-4 md:px-8">
     Projekte
   </a>
-  <a href="#reviews" className="px-8 py-4">
+
+  <a href="#reviews" className="shrink-0 px-4 py-4 md:px-8">
     Vlerësimet ({reviewCount})
   </a>
-  <a href="#about" className="px-8 py-4">
+
+  <a href="#about" className="shrink-0 px-4 py-4 md:px-8">
     Rreth Nesh
   </a>
-  <a className="px-8 py-4">Shërbimet</a>
-  <a href="#contact" className="px-8 py-4">
+
+  <a className="shrink-0 px-4 py-4 md:px-8">
+    Shërbimet
+  </a>
+
+  <a href="#contact" className="shrink-0 px-4 py-4 md:px-8">
     Kontakti
   </a>
 </div>
@@ -279,9 +298,7 @@ const memberSince = profile.created_at
             <section className="rounded-2xl bg-white p-7 shadow-md">
               <div className="mb-5 flex items-center justify-between">
                 <h3 className="text-xl font-black">Shërbimet Tona</h3>
-                <Link href="/search" className="text-sm font-bold text-blue-600">
-                  Shiko të gjitha
-                </Link>
+                
               </div>
 
               <div className="grid grid-cols-2 gap-4 md:grid-cols-6">

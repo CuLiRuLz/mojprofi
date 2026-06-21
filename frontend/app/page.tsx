@@ -123,9 +123,9 @@ function getRating(reviews: any[] | null | undefined) {
     }')`,
   }}
 >
-  <div className="mx-auto max-w-[1160px] px-8 pt-14">
-        <div className="-ml-42">
-  <h1 className="max-w-2xl text-4xl font-extrabold leading-tight tracking-tight text-slate-900 md:text-5xl">
+  <div className="mx-auto max-w-[1160px] px-4 pt-10 md:px-8 md:pt-14">
+        <div className="md:-ml-42">
+  <h1 className="max-w-2xl text-2xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-5xl">
     {settings?.homepage_hero_title ||
       "Gjeni profesionistin e duhur për punën tuaj"}
   </h1>
@@ -138,7 +138,7 @@ function getRating(reviews: any[] | null | undefined) {
 
           <form
   action="/search"
-  className="-ml-42 mt-7 flex max-w-[820px] items-center overflow-hidden rounded-2xl bg-white px-5 py-4 text-slate-900 shadow-xl"
+  className="mt-7 flex flex-col md:flex-row md:-ml-42 max-w-[820px] overflow-hidden rounded-2xl bg-white px-5 py-4 text-slate-900 shadow-xl"
 >
   <div className="flex flex-1 items-center gap-3 border-r border-slate-200 pr-5">
     <svg
@@ -220,7 +220,7 @@ function getRating(reviews: any[] | null | undefined) {
 
   <button
     type="submit"
-    className="ml-5 rounded-xl bg-blue-600 px-8 py-4 text-sm font-semibold text-white transition hover:bg-blue-700"
+    className="mt-2 md:mt-0 md:ml-5 rounded-xl bg-blue-600 px-6 py-3 md:px-8 md:py-4 text-sm font-semibold text-white transition hover:bg-blue-700"
   >
     Kërko →
   </button>
@@ -228,7 +228,7 @@ function getRating(reviews: any[] | null | undefined) {
         </div>
 
         <div className="mt-6">
-  <div className="ml-50 flex max-w-[1160px] flex-wrap items-center gap-8 px-8 py-2 text-sm font-medium text-slate-900">
+  <div className="grid grid-cols-2 gap-x-4 gap-y-4 px-4 py-2 text-sm font-medium text-slate-900 md:ml-50 md:flex md:flex-wrap md:items-center md:gap-8 md:px-8">
     
     <div className="flex items-center gap-2">
       <span className="text-blue-600">🛡️</span>
@@ -266,7 +266,7 @@ function getRating(reviews: any[] | null | undefined) {
         </a>
       </div>
 
-      <div className="grid grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         {featuredCompanies?.slice(0, 4).map((company) => (
           <a
             key={company.id}
@@ -335,7 +335,7 @@ function getRating(reviews: any[] | null | undefined) {
           </a>
         </div>
 
-        <div className="grid grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {featuredProfessionals?.slice(0, 4).map((pro) => (
             <a
               key={pro.id}

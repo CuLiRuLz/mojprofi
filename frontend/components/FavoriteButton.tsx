@@ -92,12 +92,12 @@ if (ownProfile) {
   }
 
   return (
-    <button
-      onClick={handleFavorite}
-      className="inline-flex h-[36px] min-w-[96px] items-center justify-center gap-2 rounded-xl border border-pink-200 bg-pink-50 px-3 text-xs font-semibold text-pink-600 shadow-sm hover:bg-pink-100"
-    >
-      {isFavorite ? <FaHeart size={14} /> : <FaRegHeart size={14} />}
-      Favorit
-    </button>
-  );
+  <button
+    onClick={handleFavorite}
+    className="inline-flex h-[30px] w-[34px] items-center justify-center rounded-xl border border-pink-200 bg-pink-50 text-pink-600 shadow-sm hover:bg-pink-100 md:h-[36px] md:w-auto md:min-w-[96px] md:gap-2 md:px-3 md:text-xs md:font-semibold"
+  >
+    {isFavorite ? <FaHeart size={13} /> : <FaRegHeart size={13} />}
+    <span className="hidden md:inline">Favorit</span>
+  </button>
+);
 }
