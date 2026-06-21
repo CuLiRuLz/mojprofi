@@ -98,12 +98,16 @@ export default async function AdminRolesPage() {
     .select("id, user_id, role, created_at")
     .order("created_at", { ascending: false });
 
-  const userIds = (roles as UserRole[] | null)?.map((role) => role.user_id) || [];
+  const rolesList = (roles as UserRole[] | null) || [];
+  const userIds = rolesList.map((role) => role.user_id);
 
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("user_id, company_name, first_name, last_name, email, account_type")
-    .in("user_id", userIds);
+  const { data: profiles } =
+    userIds.length > 0
+      ? await supabase
+          .from("profiles")
+          .select("user_id, company_name, first_name, last_name, email, account_type")
+          .in("user_id", userIds)
+      : { data: [] };
 
   function getProfile(userId: string) {
     return (profiles as Profile[] | null)?.find(
@@ -113,75 +117,79 @@ export default async function AdminRolesPage() {
 
   if (error) {
     return (
-      <div className="px-8 py-7">
-        <p className="text-red-600">{error.message}</p>
+      <div className="px-4 py-5 lg:px-8 lg:py-7">
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
+          {error.message}
+        </p>
       </div>
     );
   }
 
   return (
-  <div className="px-8 py-7">
-    <h1 className="text-2xl font-black">Rolet & Lejet</h1>
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
+      <h1 className="text-2xl font-black">Rolet & Lejet</h1>
 
-    <p className="mt-1 text-sm text-slate-500">
-      Këtu menaxhohen rolet dhe kompetencat e stafit në MojProfi.
-    </p>
+      <p className="mt-1 text-sm text-slate-500">
+        Këtu menaxhohen rolet dhe kompetencat e stafit në MojProfi.
+      </p>
 
-    <AddRoleForm />
+      <AddRoleForm />
 
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 text-slate-500">
-            <tr>
-              <th className="py-3 font-bold">Emri</th>
-              <th className="py-3 font-bold">Email</th>
-              <th className="py-3 font-bold">Lloji</th>
-              <th className="py-3 font-bold">Roli aktual</th>
-              <th className="py-3 font-bold">Ndrysho rol</th>
-            </tr>
-          </thead>
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[850px] w-full text-left text-sm">
+            <thead className="border-b border-slate-200 text-slate-500">
+              <tr>
+                <th className="py-3 pr-4 font-bold">Emri</th>
+                <th className="py-3 pr-4 font-bold">Email</th>
+                <th className="py-3 pr-4 font-bold">Lloji</th>
+                <th className="py-3 pr-4 font-bold">Roli aktual</th>
+                <th className="py-3 font-bold">Ndrysho rol</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {(roles as UserRole[] | null)?.map((item) => {
-              const profile = getProfile(item.user_id);
+            <tbody>
+              {rolesList.map((item) => {
+                const profile = getProfile(item.user_id);
 
-              return (
-                <tr
-                  key={item.id}
-                  className="border-b border-slate-100 last:border-0"
-                >
-                  <td className="py-3 font-bold">
-                    {getProfileName(profile)}
-                  </td>
+                return (
+                  <tr
+                    key={item.id}
+                    className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                  >
+                    <td className="py-4 pr-4 font-bold">
+                      {getProfileName(profile)}
+                    </td>
 
-                  <td className="py-3 text-slate-600">
-                    {profile?.email || "Pa email"}
-                  </td>
+                    <td className="py-4 pr-4 text-slate-600">
+                      {profile?.email || "Pa email"}
+                    </td>
 
-                  <td className="py-3">
-                    {getAccountType(profile?.account_type)}
-                  </td>
+                    <td className="py-4 pr-4">
+                      {getAccountType(profile?.account_type)}
+                    </td>
 
-                  <td className="py-3">
-                    {getRoleBadge(item.role)}
-                  </td>
+                    <td className="py-4 pr-4">
+                      {getRoleBadge(item.role)}
+                    </td>
 
-                  <td className="py-3">
-                    <RoleActions userId={item.user_id} currentRole={item.role} />
+                    <td className="py-4">
+                      <RoleActions userId={item.user_id} currentRole={item.role} />
+                    </td>
+                  </tr>
+                );
+              })}
+
+              {rolesList.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="py-6 text-center text-slate-500">
+                    Nuk ka ende role të regjistruara.
                   </td>
                 </tr>
-              );
-            })}
-
-            {roles?.length === 0 && (
-              <tr>
-                <td colSpan={5} className="py-6 text-center text-slate-500">
-                  Nuk ka ende role të regjistruara.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

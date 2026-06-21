@@ -129,23 +129,25 @@ export default function AdminCompaniesPage() {
   }
 
   return (
-    <div className="px-8 py-7">
-      <h1 className="text-2xl font-black">Kompanitë</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Këtu shfaqen të gjitha kompanitë e regjistruara në MojProfi.
-      </p>
+  <div className="px-4 py-5 lg:px-8 lg:py-7">
+    <h1 className="text-2xl font-black">Kompanitë</h1>
 
-      <div className="mt-6 flex gap-3">
-        <input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder="Kërko kompani ose telefon..."
-          className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500"
-        />
-      </div>
+    <p className="mt-1 text-sm text-slate-500">
+      Këtu shfaqen të gjitha kompanitë e regjistruara në MojProfi.
+    </p>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <table className="w-full text-left text-sm">
+    <div className="mt-6 flex gap-3">
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Kërko kompani ose telefon..."
+        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-blue-500"
+      />
+    </div>
+
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+      <div className="w-full overflow-x-auto">
+        <table className="min-w-[1100px] w-full text-left text-sm">
           <thead className="border-b border-slate-200 text-slate-500">
             <tr>
               <th className="py-3 font-bold">Kompania</th>
@@ -192,7 +194,9 @@ export default function AdminCompaniesPage() {
 
                 <td className="py-3 text-slate-600">
                   {profile.created_at
-                    ? new Date(profile.created_at).toISOString().split("T")[0]
+                    ? new Date(profile.created_at)
+                        .toISOString()
+                        .split("T")[0]
                     : "-"}
                 </td>
 
@@ -203,7 +207,7 @@ export default function AdminCompaniesPage() {
                 <td className="py-3">
                   <Link
                     href={`/company/${profile.slug}`}
-                    className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600"
+                    className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600 hover:bg-blue-100"
                   >
                     <Eye size={15} />
                   </Link>
@@ -213,7 +217,10 @@ export default function AdminCompaniesPage() {
 
             {filteredProfiles.length === 0 && (
               <tr>
-                <td colSpan={9} className="py-6 text-center text-slate-500">
+                <td
+                  colSpan={9}
+                  className="py-6 text-center text-slate-500"
+                >
                   Nuk ka kompani për momentin.
                 </td>
               </tr>
@@ -222,5 +229,6 @@ export default function AdminCompaniesPage() {
         </table>
       </div>
     </div>
-  );
+  </div>
+);
 }

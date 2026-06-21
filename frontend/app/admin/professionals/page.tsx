@@ -141,8 +141,9 @@ export default function AdminProfessionalsPage() {
   }
 
   return (
-    <div className="px-8 py-7">
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
       <h1 className="text-2xl font-black">Mjeshtrit / Profesionistët</h1>
+
       <p className="mt-1 text-sm text-slate-500">
         Këtu shfaqen të gjithë profesionistët e regjistruar në MojProfi.
       </p>
@@ -156,85 +157,89 @@ export default function AdminProfessionalsPage() {
         />
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 text-slate-500">
-            <tr>
-              <th className="py-3 font-bold">Emri</th>
-              <th className="py-3 font-bold">Profesioni</th>
-              <th className="py-3 font-bold">Kategoria</th>
-              <th className="py-3 font-bold">Qyteti</th>
-              <th className="py-3 font-bold">Projektet</th>
-              <th className="py-3 font-bold">Vlerësimet</th>
-              <th className="py-3 font-bold">Telefoni</th>
-              <th className="py-3 font-bold">Regjistruar më</th>
-              <th className="py-3 font-bold">Statusi</th>
-              <th className="py-3 font-bold">Veprimet</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filteredProfiles.map((profile) => (
-              <tr
-                key={profile.id}
-                className="border-b border-slate-100 last:border-0"
-              >
-                <td className="py-3 font-bold">{getFullName(profile)}</td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.profession || "-"}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {getMainCategory(profile)}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.cities?.name || "-"}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.projects?.length || 0}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {getReviews(profile)}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.phone || "-"}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.created_at
-                    ? new Date(profile.created_at).toISOString().split("T")[0]
-                    : "-"}
-                </td>
-
-                <td className="py-3">
-                  {getStatusBadge(profile.approval_status)}
-                </td>
-
-                <td className="py-3">
-                  <Link
-                    href={`/professional/${profile.slug}`}
-                    className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600"
-                  >
-                    <Eye size={15} />
-                  </Link>
-                </td>
-              </tr>
-            ))}
-
-            {filteredProfiles.length === 0 && (
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[1150px] w-full text-left text-sm">
+            <thead className="border-b border-slate-200 text-slate-500">
               <tr>
-                <td colSpan={10} className="py-6 text-center text-slate-500">
-                  Nuk ka profesionistë për momentin.
-                </td>
+                <th className="py-3 font-bold">Emri</th>
+                <th className="py-3 font-bold">Profesioni</th>
+                <th className="py-3 font-bold">Kategoria</th>
+                <th className="py-3 font-bold">Qyteti</th>
+                <th className="py-3 font-bold">Projektet</th>
+                <th className="py-3 font-bold">Vlerësimet</th>
+                <th className="py-3 font-bold">Telefoni</th>
+                <th className="py-3 font-bold">Regjistruar më</th>
+                <th className="py-3 font-bold">Statusi</th>
+                <th className="py-3 font-bold">Veprimet</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {filteredProfiles.map((profile) => (
+                <tr
+                  key={profile.id}
+                  className="border-b border-slate-100 last:border-0"
+                >
+                  <td className="py-3 font-bold">{getFullName(profile)}</td>
+
+                  <td className="py-3 text-slate-600">
+                    {profile.profession || "-"}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {getMainCategory(profile)}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {profile.cities?.name || "-"}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {profile.projects?.length || 0}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {getReviews(profile)}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {profile.phone || "-"}
+                  </td>
+
+                  <td className="py-3 text-slate-600">
+                    {profile.created_at
+                      ? new Date(profile.created_at)
+                          .toISOString()
+                          .split("T")[0]
+                      : "-"}
+                  </td>
+
+                  <td className="py-3">
+                    {getStatusBadge(profile.approval_status)}
+                  </td>
+
+                  <td className="py-3">
+                    <Link
+                      href={`/professional/${profile.slug}`}
+                      className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600 hover:bg-blue-100"
+                    >
+                      <Eye size={15} />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+
+              {filteredProfiles.length === 0 && (
+                <tr>
+                  <td colSpan={10} className="py-6 text-center text-slate-500">
+                    Nuk ka profesionistë për momentin.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -2,15 +2,11 @@ import { supabase } from "@/lib/supabase";
 import {
   BadgeCheck,
   Building2,
-  Check,
   CheckCircle2,
   Clock,
-  Eye,
   Flag,
-  Globe2,
   HardHat,
   ImageIcon,
-  Search,
   ShieldCheck,
   Star,
   UserRound,
@@ -267,7 +263,8 @@ export default async function AdminPage() {
     )
     .slice(0, 5);
 
-  const { data: profileCategories } = await supabase.from("profile_categories")
+  const { data: profileCategories } = await supabase
+    .from("profile_categories")
     .select(`
       id,
       categories(name)
@@ -322,9 +319,9 @@ export default async function AdminPage() {
       .length ?? 0;
 
   return (
-    <div className="px-8 py-7">
-      <section className="rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm">
-        <div className="flex items-center justify-between">
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
+      <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:px-7 lg:py-6">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 className="text-2xl font-black tracking-tight">
               Përshëndetje, Admin! 👋
@@ -334,16 +331,16 @@ export default async function AdminPage() {
             </p>
           </div>
 
-          <div className="flex gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:flex">
             <a
               href="/admin/reports"
-              className="rounded-xl border border-slate-200 px-5 py-3 text-sm font-bold hover:bg-slate-50"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-center text-sm font-bold hover:bg-slate-50"
             >
               Raportet
             </a>
             <a
               href="/admin/pending"
-              className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-bold text-white hover:bg-blue-700"
+              className="rounded-xl bg-blue-600 px-4 py-3 text-center text-sm font-bold text-white hover:bg-blue-700"
             >
               Verifiko profile
             </a>
@@ -351,7 +348,7 @@ export default async function AdminPage() {
         </div>
       </section>
 
-      <section className="mt-5 grid gap-4 xl:grid-cols-6">
+      <section className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-6">
         <StatCard
           icon={<Building2 size={24} />}
           title="Kompanitë"
@@ -397,81 +394,85 @@ export default async function AdminPage() {
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.35fr_1fr_0.9fr]">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-  <div className="flex items-center justify-between">
-    <h3 className="text-lg font-black">Regjistrime të reja</h3>
-    <button className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500">
-      Aktivitet real
-    </button>
-  </div>
-
-  <div className="mt-4 flex gap-6 text-sm font-medium">
-    <span className="flex items-center gap-2">
-      <span className="h-2 w-2 rounded-full bg-blue-600" /> Kompanitë
-    </span>
-
-    <span className="flex items-center gap-2">
-      <span className="h-2 w-2 rounded-full bg-emerald-500" /> Mjeshtrit
-    </span>
-  </div>
-
-  <div className="mt-5 h-[210px] rounded-xl bg-gradient-to-b from-slate-50 to-white p-4">
-    <svg viewBox="0 0 600 210" className="h-full w-full">
-      <line x1="0" y1="40" x2="600" y2="40" stroke="#e2e8f0" />
-      <line x1="0" y1="95" x2="600" y2="95" stroke="#e2e8f0" />
-      <line x1="0" y1="150" x2="600" y2="150" stroke="#e2e8f0" />
-
-      <polyline
-        fill="none"
-        stroke="#2563eb"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        points={`10,120 60,135 110,95 160,105 210,88 260,145 310,160 360,140 410,130 460,82 510,98 560,72 590,105`}
-      />
-
-      <polyline
-        fill="none"
-        stroke="#22c55e"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        points={`10,150 60,165 110,145 160,155 210,138 260,175 310,195 360,168 410,158 460,135 510,115 560,140 590,128`}
-      />
-
-      <circle cx="560" cy="72" r="5" fill="#2563eb" />
-      <circle cx="590" cy="128" r="5" fill="#22c55e" />
-    </svg>
-  </div>
-
-  <div className="mt-4 grid grid-cols-2 gap-3">
-    <div className="rounded-xl bg-blue-50 px-4 py-3">
-      <p className="text-xs font-bold text-blue-600">Kompani të reja</p>
-      <p className="text-2xl font-black text-slate-900">
-        {companyRegistrations}
-      </p>
-    </div>
-
-    <div className="rounded-xl bg-emerald-50 px-4 py-3">
-      <p className="text-xs font-bold text-emerald-600">Mjeshtër të rinj</p>
-      <p className="text-2xl font-black text-slate-900">
-        {professionalRegistrations}
-      </p>
-    </div>
-  </div>
-</div>
-
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-black">Përbërja sipas kategorive</h3>
-            <button className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500">
-              Të gjitha
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+          <div className="mt-6 flex flex-col items-center gap-6">
+            <h3 className="text-lg font-black">Regjistrime të reja</h3>
+            <button className="w-fit rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500">
+              Aktivitet real
             </button>
           </div>
 
-          <div className="mt-6 flex items-center gap-7">
+          <div className="mt-4 flex flex-wrap gap-4 text-sm font-medium lg:gap-6">
+            <span className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-blue-600" /> Kompanitë
+            </span>
+
+            <span className="flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" /> Mjeshtrit
+            </span>
+          </div>
+
+          <div className="mt-5 w-full overflow-x-auto">
+            <div className="h-[210px] min-w-[560px] rounded-xl bg-gradient-to-b from-slate-50 to-white p-4">
+              <svg viewBox="0 0 600 210" className="h-full w-full">
+                <line x1="0" y1="40" x2="600" y2="40" stroke="#e2e8f0" />
+                <line x1="0" y1="95" x2="600" y2="95" stroke="#e2e8f0" />
+                <line x1="0" y1="150" x2="600" y2="150" stroke="#e2e8f0" />
+
+                <polyline
+                  fill="none"
+                  stroke="#2563eb"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  points="10,120 60,135 110,95 160,105 210,88 260,145 310,160 360,140 410,130 460,82 510,98 560,72 590,105"
+                />
+
+                <polyline
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  points="10,150 60,165 110,145 160,155 210,138 260,175 310,195 360,168 410,158 460,135 510,115 560,140 590,128"
+                />
+
+                <circle cx="560" cy="72" r="5" fill="#2563eb" />
+                <circle cx="590" cy="128" r="5" fill="#22c55e" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div className="rounded-xl bg-blue-50 px-4 py-3">
+              <p className="text-xs font-bold text-blue-600">Kompani të reja</p>
+              <p className="text-2xl font-black text-slate-900">
+                {companyRegistrations}
+              </p>
+            </div>
+
+            <div className="rounded-xl bg-emerald-50 px-4 py-3">
+              <p className="text-xs font-bold text-emerald-600">
+                Mjeshtër të rinj
+              </p>
+              <p className="text-2xl font-black text-slate-900">
+                {professionalRegistrations}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h3 className="text-lg font-black">Përbërja sipas kategorive</h3>
+            <button className="hidden w-fit rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500 lg:block">
+  Të gjitha
+</button>
+          </div>
+
+          <div className="mt-25 flex flex-col items-center justify-center gap-6">
             <div
-              className="flex h-44 w-44 items-center justify-center rounded-full"
+  className="mx-auto flex h-36 w-36 shrink-0 items-center justify-center rounded-full lg:h-44 lg:w-44"
               style={{ background: `conic-gradient(${conicGradient})` }}
             >
               <div className="flex h-24 w-24 flex-col items-center justify-center rounded-full bg-white">
@@ -484,7 +485,7 @@ export default async function AdminPage() {
               </div>
             </div>
 
-            <div className="space-y-3 text-sm font-medium">
+            <div className="mx-auto grid w-full max-w-[240px] grid-cols-[1fr_auto] gap-y-3 text-sm font-medium">
               {categoryStats.length > 0 ? (
                 categoryStats.map((item, index) => (
                   <Legend
@@ -507,8 +508,17 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h3 className="text-lg font-black">Aktivitetet e fundit</h3>
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <h3 className="text-lg font-black">Aktivitetet e fundit</h3>
+
+    <a
+      href="/admin/pending"
+      className="text-sm font-bold text-blue-600"
+    >
+      Shiko të gjitha
+    </a>
+  </div>
 
           <div className="mt-5 space-y-4">
             {activities.length > 0 ? (
@@ -533,45 +543,54 @@ export default async function AdminPage() {
             )}
           </div>
 
-          <a
-            href="/admin/pending"
-            className="mt-5 block w-full rounded-xl border border-slate-200 py-2.5 text-center text-sm font-bold text-blue-600 hover:bg-slate-50"
-          >
-            Shiko të gjitha
-          </a>
         </div>
       </section>
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[1.7fr_0.65fr]">
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="flex items-center justify-between">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <h3 className="text-lg font-black">Në pritje për verifikim</h3>
             <a className="text-sm font-bold text-blue-600" href="/admin/pending">
               Shiko të gjitha ({pendingCount || 0})
             </a>
           </div>
 
-          <div className="mt-4 overflow-hidden">
-            <table className="w-full text-left text-sm">
+          <div className="mt-4 hidden w-full overflow-x-auto lg:block">
+            <table className="min-w-[900px] w-full text-left text-sm">
               <thead className="border-b border-slate-200 text-slate-500">
                 <tr>
-                  <th className="py-3 font-bold">Emri</th>
-                  <th className="py-3 font-bold">Lloji</th>
-                  <th className="py-3 font-bold">Qyteti</th>
-                  <th className="py-3 font-bold">Telefoni</th>
-                  <th className="py-3 font-bold">Regjistruar më</th>
-                  <th className="py-3 font-bold">Statusi</th>
+                  <th className="py-3 pr-4 font-bold">Emri</th>
+                  <th className="py-3 pr-4 font-bold">Lloji</th>
+                  <th className="py-3 pr-4 font-bold">Qyteti</th>
+                  <th className="py-3 pr-4 font-bold">Telefoni</th>
+                  <th className="py-3 pr-4 font-bold">Regjistruar më</th>
+                  <th className="py-3 pr-4 font-bold">Statusi</th>
                   <th className="py-3 font-bold">Veprimet</th>
                 </tr>
               </thead>
+
               <tbody>
-                <PendingVerificationTable initialProfiles={pendingProfilesList} />
+                <PendingVerificationTable
+                  initialProfiles={pendingProfilesList}
+                />
               </tbody>
             </table>
           </div>
+          <div className="mt-4 rounded-xl border border-dashed border-slate-200 p-5 text-center lg:hidden">
+  <p className="text-sm font-semibold text-slate-500">
+    Lista e profileve në pritje shfaqet më mirë në desktop.
+  </p>
+
+  <a
+    href="/admin/pending"
+    className="mt-3 inline-block rounded-xl bg-blue-600 px-4 py-2 text-sm font-bold text-white"
+  >
+    Shiko profilet në pritje
+  </a>
+</div>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
           <h3 className="text-lg font-black">Informacione të shpejta</h3>
 
           <div className="mt-5 space-y-4">
@@ -609,7 +628,7 @@ export default async function AdminPage() {
         </div>
       </section>
 
-      <footer className="mt-7 flex items-center justify-between text-sm text-slate-500">
+      <footer className="mt-7 flex flex-col gap-2 text-sm text-slate-500 sm:flex-row sm:items-center sm:justify-between">
         <span>© 2026 MojProfi. Të gjitha të drejtat e rezervuara.</span>
         <span>Versioni 1.0.0-beta</span>
       </footer>
@@ -666,15 +685,15 @@ function Legend({
   value: string;
 }) {
   return (
-    <div className="flex items-center justify-between gap-8">
-      <span className="flex items-center gap-2">
+    <div className="flex items-center justify-between gap-4 sm:gap-8">
+      <span className="flex min-w-0 items-center gap-2">
         <span
-          className="h-3 w-3 rounded-full"
+          className="h-3 w-3 shrink-0 rounded-full"
           style={{ backgroundColor: color }}
         />
-        {label}
+        <span className="truncate">{label}</span>
       </span>
-      <span>{value}</span>
+      <span className="shrink-0">{value}</span>
     </div>
   );
 }
@@ -695,7 +714,7 @@ function ActivityItem({
   return (
     <div className="flex items-start gap-3">
       <div
-        className={`flex h-9 w-9 items-center justify-center rounded-xl ${color}`}
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${color}`}
       >
         {icon}
       </div>
@@ -730,15 +749,15 @@ function QuickInfo({
 
   return (
     <div className="flex items-center justify-between rounded-xl border border-slate-200 p-4">
-      <div className="flex items-center gap-3">
+      <div className="flex min-w-0 items-center gap-3">
         <div
-          className={`flex h-9 w-9 items-center justify-center rounded-xl ${colors[color]}`}
+          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${colors[color]}`}
         >
           {icon}
         </div>
-        <span className="text-sm font-bold">{label}</span>
+        <span className="truncate text-sm font-bold">{label}</span>
       </div>
-      <span className="text-sm font-black">{value}</span>
+      <span className="shrink-0 text-sm font-black">{value}</span>
     </div>
   );
 }

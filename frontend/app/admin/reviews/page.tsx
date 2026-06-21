@@ -105,7 +105,7 @@ export default async function AdminReviewsPage() {
 
   if (error) {
     return (
-      <div className="px-8 py-7">
+      <div className="px-4 py-5 lg:px-8 lg:py-7">
         <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
           {error.message}
         </p>
@@ -125,7 +125,7 @@ export default async function AdminReviewsPage() {
   const lowReviews = reviews.filter((review) => (review.rating || 0) <= 2).length;
 
   return (
-    <div className="px-8 py-7">
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
       <h1 className="text-2xl font-black">Reviews / Vlerësimet</h1>
 
       <p className="mt-1 text-sm text-slate-500">
@@ -143,9 +143,7 @@ export default async function AdminReviewsPage() {
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-          <p className="text-sm font-semibold text-slate-500">
-            Mesatarja
-          </p>
+          <p className="text-sm font-semibold text-slate-500">Mesatarja</p>
           <p className="mt-2 text-3xl font-black text-slate-900">
             ⭐ {averageRating}
           </p>
@@ -161,7 +159,7 @@ export default async function AdminReviewsPage() {
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
         <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-lg font-black text-slate-900">
@@ -179,8 +177,8 @@ export default async function AdminReviewsPage() {
           />
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[1000px] w-full text-left text-sm">
             <thead className="border-b border-slate-200 text-slate-500">
               <tr>
                 <th className="py-3 pr-4 font-bold">Autori</th>
@@ -213,16 +211,16 @@ export default async function AdminReviewsPage() {
                     </Link>
                   </td>
 
-                  <td className="py-4 pr-4">
-                    {getProfileType(review)}
-                  </td>
+                  <td className="py-4 pr-4">{getProfileType(review)}</td>
 
                   <td className="py-4 pr-4 text-slate-600">
                     ⭐ {review.rating || 0}/5
                   </td>
 
                   <td className="w-[35%] py-4 pr-4 text-slate-600">
-                    {review.comment || "-"}
+                    <p className="line-clamp-3">
+                      {review.comment || "-"}
+                    </p>
                   </td>
 
                   <td className="py-4 pr-4 text-slate-600">

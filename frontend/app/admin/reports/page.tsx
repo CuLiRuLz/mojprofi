@@ -127,97 +127,107 @@ export default async function AdminReportsPage() {
     `)
     .order("created_at", { ascending: false });
 
+  const reportsList = (reports as unknown as Report[] | null) || [];
+
   if (error) {
     return (
-      <div className="px-8 py-7">
-        <p className="text-red-600">{error.message}</p>
+      <div className="px-4 py-5 lg:px-8 lg:py-7">
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
+          {error.message}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="px-8 py-7">
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
       <h1 className="text-2xl font-black">Raportimet</h1>
+
       <p className="mt-1 text-sm text-slate-500">
         Këtu menaxhohen raportimet për profilet e kompanive dhe profesionistëve.
       </p>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 text-slate-500">
-            <tr>
-              <th className="py-3 font-bold">Raportuesi</th>
-              <th className="py-3 font-bold">Profili</th>
-              <th className="py-3 font-bold">Lloji</th>
-              <th className="py-3 font-bold">Arsyeja</th>
-              <th className="py-3 font-bold">Përshkrimi</th>
-              <th className="py-3 font-bold">Statusi</th>
-              <th className="py-3 font-bold">Data</th>
-              <th className="py-3 font-bold">Veprimet</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {(reports as unknown as Report[] | null)?.map((report) => (
-              <tr
-                key={report.id}
-                className="border-b border-slate-100 last:border-0"
-              >
-                <td className="py-3 font-bold">
-                  {report.reporter_name || "-"}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {getProfileName(report)}
-                </td>
-
-                <td className="py-3">{getProfileType(report)}</td>
-
-                <td className="py-3 text-slate-600">
-                  {report.reason || "-"}
-                </td>
-
-                <td className="w-[35%] py-3 text-slate-600">
-                  {report.description || "-"}
-                </td>
-
-                <td className="py-3 text-center">
-  {getStatusBadge(report.status)}
-</td>
-
-                <td className="py-3 text-slate-600">
-                  {report.created_at
-                    ? new Date(report.created_at).toISOString().split("T")[0]
-                    : "-"}
-                </td>
-
-                <td className="py-3">
-                  <div className="flex gap-2">
-  <Link
-    href={getProfileLink(report)}
-    className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600"
-    title="Shiko profilin"
-  >
-    <Eye size={15} />
-  </Link>
-
-  <ResolveReportButton reportId={report.id} />
-
-  <RejectReportButton reportId={report.id} />
-</div>
-                </td>
-              </tr>
-            ))}
-
-            {reports?.length === 0 && (
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[1100px] w-full text-left text-sm">
+            <thead className="border-b border-slate-200 text-slate-500">
               <tr>
-                <td colSpan={8} className="py-6 text-center text-slate-500">
-                  Nuk ka raportime për momentin.
-                </td>
+                <th className="py-3 pr-4 font-bold">Raportuesi</th>
+                <th className="py-3 pr-4 font-bold">Profili</th>
+                <th className="py-3 pr-4 font-bold">Lloji</th>
+                <th className="py-3 pr-4 font-bold">Arsyeja</th>
+                <th className="w-[30%] py-3 pr-4 font-bold">Përshkrimi</th>
+                <th className="py-3 pr-4 font-bold">Statusi</th>
+                <th className="py-3 pr-4 font-bold">Data</th>
+                <th className="py-3 font-bold">Veprimet</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {reportsList.map((report) => (
+                <tr
+                  key={report.id}
+                  className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                >
+                  <td className="py-4 pr-4 font-bold text-slate-900">
+                    {report.reporter_name || "-"}
+                  </td>
+
+                  <td className="py-4 pr-4 text-slate-600">
+                    {getProfileName(report)}
+                  </td>
+
+                  <td className="py-4 pr-4">{getProfileType(report)}</td>
+
+                  <td className="py-4 pr-4 text-slate-600">
+                    {report.reason || "-"}
+                  </td>
+
+                  <td className="w-[30%] py-4 pr-4 text-slate-600">
+                    <p className="line-clamp-3">
+                      {report.description || "-"}
+                    </p>
+                  </td>
+
+                  <td className="py-4 pr-4">
+                    {getStatusBadge(report.status)}
+                  </td>
+
+                  <td className="py-4 pr-4 text-slate-600">
+                    {report.created_at
+                      ? new Date(report.created_at)
+                          .toISOString()
+                          .split("T")[0]
+                      : "-"}
+                  </td>
+
+                  <td className="py-4">
+                    <div className="flex gap-2">
+                      <Link
+                        href={getProfileLink(report)}
+                        className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600 hover:bg-blue-100"
+                        title="Shiko profilin"
+                      >
+                        <Eye size={15} />
+                      </Link>
+
+                      <ResolveReportButton reportId={report.id} />
+                      <RejectReportButton reportId={report.id} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+
+              {reportsList.length === 0 && (
+                <tr>
+                  <td colSpan={8} className="py-6 text-center text-slate-500">
+                    Nuk ka raportime për momentin.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

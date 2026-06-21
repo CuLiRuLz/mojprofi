@@ -120,85 +120,91 @@ export default async function AdminUsersPage() {
     `)
     .order("id", { ascending: false });
 
+  const profilesList = (profiles as UserProfile[] | null) || [];
+
   if (error) {
     return (
-      <div className="px-8 py-7">
-        <p className="text-red-600">{error.message}</p>
+      <div className="px-4 py-5 lg:px-8 lg:py-7">
+        <p className="rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
+          {error.message}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="px-8 py-7">
+    <div className="px-4 py-5 lg:px-8 lg:py-7">
       <h1 className="text-2xl font-black">Përdoruesit</h1>
 
       <p className="mt-1 text-sm text-slate-500">
         Menaxhimi i të gjitha kompanive dhe profesionistëve të regjistruar.
       </p>
 
-      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 text-slate-500">
-            <tr>
-              <th className="py-3 font-bold">ID</th>
-              <th className="py-3 font-bold">Emri</th>
-              <th className="py-3 font-bold">Lloji</th>
-              <th className="py-3 font-bold">Telefoni</th>
-              <th className="py-3 font-bold">Statusi</th>
-              <th className="py-3 font-bold">Verifikimi</th>
-              <th className="py-3 font-bold">Veprimet</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {(profiles as UserProfile[] | null)?.map((profile) => (
-              <tr
-                key={profile.id}
-                className="border-b border-slate-100 last:border-0"
-              >
-                <td className="py-3 font-medium">#{profile.id}</td>
-
-                <td className="py-3 font-bold">
-                  {getProfileName(profile)}
-                </td>
-
-                <td className="py-3">
-                  {getAccountType(profile.account_type)}
-                </td>
-
-                <td className="py-3 text-slate-600">
-                  {profile.phone || "-"}
-                </td>
-
-                <td className="py-3">
-                  {getStatusBadge(profile.approval_status)}
-                </td>
-
-                <td className="py-3">
-                  {getVerificationBadge(profile.verified_level)}
-                </td>
-
-                <td className="py-3">
-                  <Link
-                    href={getProfileLink(profile)}
-                    className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600"
-                    title="Shiko profilin"
-                  >
-                    <Eye size={15} />
-                  </Link>
-                </td>
-              </tr>
-            ))}
-
-            {profiles?.length === 0 && (
+      <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm lg:p-6">
+        <div className="w-full overflow-x-auto">
+          <table className="min-w-[850px] w-full text-left text-sm">
+            <thead className="border-b border-slate-200 text-slate-500">
               <tr>
-                <td colSpan={7} className="py-6 text-center text-slate-500">
-                  Nuk ka përdorues.
-                </td>
+                <th className="py-3 pr-4 font-bold">ID</th>
+                <th className="py-3 pr-4 font-bold">Emri</th>
+                <th className="py-3 pr-4 font-bold">Lloji</th>
+                <th className="py-3 pr-4 font-bold">Telefoni</th>
+                <th className="py-3 pr-4 font-bold">Statusi</th>
+                <th className="py-3 pr-4 font-bold">Verifikimi</th>
+                <th className="py-3 font-bold">Veprimet</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+              {profilesList.map((profile) => (
+                <tr
+                  key={profile.id}
+                  className="border-b border-slate-100 last:border-0 hover:bg-slate-50"
+                >
+                  <td className="py-4 pr-4 font-medium">#{profile.id}</td>
+
+                  <td className="py-4 pr-4 font-bold">
+                    {getProfileName(profile)}
+                  </td>
+
+                  <td className="py-4 pr-4">
+                    {getAccountType(profile.account_type)}
+                  </td>
+
+                  <td className="py-4 pr-4 text-slate-600">
+                    {profile.phone || "-"}
+                  </td>
+
+                  <td className="py-4 pr-4">
+                    {getStatusBadge(profile.approval_status)}
+                  </td>
+
+                  <td className="py-4 pr-4">
+                    {getVerificationBadge(profile.verified_level)}
+                  </td>
+
+                  <td className="py-4">
+                    <Link
+                      href={getProfileLink(profile)}
+                      className="inline-flex rounded-lg bg-blue-50 p-2 text-blue-600 hover:bg-blue-100"
+                      title="Shiko profilin"
+                    >
+                      <Eye size={15} />
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+
+              {profilesList.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="py-6 text-center text-slate-500">
+                    Nuk ka përdorues.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
